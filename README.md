@@ -23,7 +23,7 @@ pip install -r requirements.txt
 
 Run a Gunicorn server:
 ```
-gunicorn -b 0.0.0.0:3200 app:app -k sanic.worker.GunicornWorker
+gunicorn -b 0.0.0.0:3200 app:app -k sanic.worker.GunicornWorker --threads 1000
 ```
 
 Performance
