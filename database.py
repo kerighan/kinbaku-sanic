@@ -193,7 +193,7 @@ class ThreadedGraph(threading.Thread):
 
     def handle_get_batch_nodes(self, task, arg):
         batch_size, cursor = arg
-        nodes, cursor = self.G.batch_get_edges(
+        nodes, cursor = self.G.batch_get_nodes(
             batch_size=batch_size, cursor=cursor)
         task.done({
             "nodes": nodes,
