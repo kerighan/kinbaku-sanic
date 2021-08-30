@@ -196,7 +196,7 @@ class ThreadedGraph(threading.Thread):
         nodes, cursor = self.G.batch_get_nodes(
             batch_size=batch_size, cursor=cursor)
         task.done({
-            "nodes": nodes,
+            "nodes": [n.key for n in nodes],
             "cursor": cursor}, 200)
 
     def handle_count(self, task):
