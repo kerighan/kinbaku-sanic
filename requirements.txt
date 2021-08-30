@@ -5,3 +5,4 @@ aiocache>=0.11.1
 kinbaku>=0.0.1
 gunicorn>=20.1.0
 msgpack>=1.0.2
+ujson>=4.1.0
