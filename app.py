@@ -59,7 +59,6 @@ async def edge(_, u, v):
 
 
 @app.get("/edge")
-@cached(ttl=TTL)
 @json_task
 async def batch_get_edges(request):
     batch_size = int(request.args.get("size", 100))
@@ -91,7 +90,6 @@ async def node(_, u):
 
 
 @app.get("/node")
-@cached(ttl=TTL)
 @json_task
 async def batch_get_nodes(request):
     batch_size = int(request.args.get("size", 100))

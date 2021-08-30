@@ -202,7 +202,7 @@ class ThreadedGraph(threading.Thread):
     def handle_count(self, task):
         n_nodes = self.G.n_nodes
         n_edges = self.G.n_edges
-        avg_deg = round(n_edges / n_nodes, 0) if n_nodes != 0 else 0
+        avg_deg = round(n_edges / n_nodes, 1) if n_nodes != 0 else 0
         task.done({"nodes_count": self.G.n_nodes,
                    "edges_count": self.G.n_edges,
                    "avg_degree": avg_deg}, 200)
