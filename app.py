@@ -5,10 +5,10 @@ from sanic_cors import CORS
 
 from database import ThreadedGraph
 from utils import json_task
-from variables import TTL, VERSION
+from variables import DATABASE, TTL, VERSION
 
 # graphs
-G = ThreadedGraph(kn.Graph("db/test.db", flag="n"))
+G = ThreadedGraph(kn.Graph(DATABASE, flag="n"))
 
 # create flask app
 app = Sanic(__name__, strict_slashes=False)
