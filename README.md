@@ -27,5 +27,5 @@ gunicorn -b 0.0.0.0:3200 app:app -k sanic.worker.GunicornWorker
 ```
 
 A word of caution
------
+-----------------
 By default, all CORS are enabled. Besides, no authentication system has been integrated yet.
