@@ -19,12 +19,6 @@ CORS(app)
 # GENERAL FUNCTIONS
 # =============================================================================
 
-@app.get("/kill")
-def kill(request):
-    G.terminate()
-    return response.text("OK")
-
-
 @app.get("")
 async def home(_):
     return response.json({
