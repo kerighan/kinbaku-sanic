@@ -1,3 +1,5 @@
+import asyncio
+
 from sanic import response
 
 # =============================================================================
@@ -8,6 +10,7 @@ from sanic import response
 def json_task(func):
     async def wrapper(*args, **kwargs):
         task = await func(*args, **kwargs)
-        await task.wait()
-        return response.json(task.data, task.status)
+        while task.get_pending():
+            await asyncio.sleep(1e-5)
+        return response.json(task.get_data(), task.get_status())
     return wrapper

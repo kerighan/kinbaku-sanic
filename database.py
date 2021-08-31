@@ -1,12 +1,13 @@
-import asyncio
-import queue
 import random
-import threading
 import time
 from dataclasses import dataclass
 from enum import Enum
+from multiprocessing import Process
+from queue import PriorityQueue
 
 import kinbaku as kn
+
+from sync import Manager, MyManager
 
 
 class Action(Enum):
@@ -26,18 +27,17 @@ class Action(Enum):
     SET_PREDECESSORS = 13
 
 
-class ThreadedGraph(threading.Thread):
-    def __init__(self, G, daemon=True, maxsize=1000000):
+class ThreadedGraph(Process):
+    def __init__(self, G):
         super().__init__()
         self.G = G
-        self.q = queue.PriorityQueue()
-        self.setDaemon(daemon)
+        self.m = Manager()
+        self.q = self.m.PriorityQueue()
         self.start()
 
     def run(self):
         while True:
             _, (task, action, arg) = self.q.get()
-
             if action == Action.ADD_EDGE:
                 self.handle_add_edge(task, arg)
             elif action == Action.ADD_NODE:
@@ -69,7 +69,7 @@ class ThreadedGraph(threading.Thread):
         print("closing...")
 
     def put(self, priority, action, arg=None):
-        task = Task()
+        task = self.m.Task()
         self.q.put((priority, (task, action, arg)))
         return task
 
@@ -251,6 +251,8 @@ class Task:
     def __init__(self):
         self.pending = True
         self.timestamp = time.time() + random.random()
+        self.data = None
+        self.status = None
 
     def done(self, data=None, status=None):
         self.pending = False
@@ -259,6 +261,15 @@ class Task:
         if status is not None:
             self.status = status
 
-    async def wait(self):
-        while self.pending:
-            await asyncio.sleep(1e-5)
+    def get_pending(self):
+        return self.pending
+
+    def get_data(self):
+        return self.data
+
+    def get_status(self):
+        return self.status
+
+
+MyManager.register("PriorityQueue", PriorityQueue)
+MyManager.register("Task", Task)
