@@ -8,7 +8,7 @@ from utils import json_task
 from variables import DATABASE, TTL, VERSION
 
 # graphs
-G = ThreadedGraph(kn.Graph(DATABASE, flag="w"))
+G = ThreadedGraph(kn.Graph(DATABASE, flag="w", cache_len=5000000))
 
 # create flask app
 app = Sanic(__name__, strict_slashes=False)
